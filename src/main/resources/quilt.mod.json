@@ -1,0 +1,42 @@
+{
+	"schema_version": 1,
+	"quilt_loader": {
+		"group": "com.pouffydev",
+		"id": "moorland_harvest",
+		"version": "${version}",
+		"metadata": {
+			"name": "Moorland Harvest",
+			"description": "Totally innocent farming mod.",
+			"contributors": {
+				"Your name here": "PouffyDev"
+			},
+			"contact": {
+				"homepage": "https://example.com/",
+				"issues": "https://github.com/QuiltMC/quilt-template-mod/issues",
+				"sources": "https://github.com/QuiltMC/quilt-template-mod"
+			},
+			"icon": "assets/moorland_harvest/icon.png"
+		},
+		"intermediate_mappings": "net.fabricmc:intermediary",
+		"entrypoints": {
+			"init": "com.pouffydev.moorland_harvest.Moorland",
+			"client_init": "com.pouffydev.moorland_harvest.MoorlandClient"
+		},
+		"depends": [
+			{
+				"id": "quilt_loader",
+				"versions": ">=0.17.0-"
+			},
+			{
+				"id": "quilted_fabric_api",
+				"versions": ">=4.0.0-"
+			},
+			{
+				"id": "minecraft",
+				"versions": ">=1.19.2"
+			}
+		]
+	},
+	"access_widener": "moorland_harvest.accesswidener",
+	"mixin": "moorland_harvest.mixins.json"
+}

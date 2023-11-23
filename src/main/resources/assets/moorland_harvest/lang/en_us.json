@@ -1,0 +1,10 @@
+{
+  "block.moorland_harvest.damp_turf": "Damp Turf",
+  "block.moorland_harvest.dried_turf": "Dried Turf",
+
+  "entity.moorland_harvest.moor_stalker": "Moor Stalker",
+  "entity.moorland_harvest.crow": "Crow",
+
+  "item.moorland_harvest.moor_stalker_spawn_egg": "Moor Stalker Spawn Egg",
+  "item.moorland_harvest.crow_spawn_egg": "Crow Spawn Egg"
+}
