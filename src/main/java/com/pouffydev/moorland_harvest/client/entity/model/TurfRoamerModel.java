@@ -1,16 +1,16 @@
-package com.pouffydev.moorland_harvest.content.entity.turf_roamer;
+package com.pouffydev.moorland_harvest.client.entity.model;
 // Made with Blockbench 4.8.3
 // Exported for Minecraft version 1.17+ for Yarn
 // Paste this class into your mod and generate all required imports
 
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.entity.model.SinglePartEntityModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
-@Environment(EnvType.CLIENT)
+import org.quiltmc.loader.api.minecraft.ClientOnly;
+
+@ClientOnly
 public class TurfRoamerModel<T extends Entity> extends SinglePartEntityModel<T> {
 	private final ModelPart root;
 	private final ModelPart head;

@@ -1,5 +1,6 @@
 package com.pouffydev.moorland_harvest.content.entity.crow;
 
+import com.pouffydev.moorland_harvest.content.entity.ITargetsDroppedItems;
 import com.pouffydev.moorland_harvest.content.entity.ai.*;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -31,6 +32,7 @@ import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.BlockTags;
+import net.minecraft.util.Hand;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -39,13 +41,12 @@ import net.minecraft.util.random.RandomGenerator;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
 
-public class CrowEntity extends AnimalEntity {
+public class CrowEntity extends AnimalEntity implements ITargetsDroppedItems {
 	private static final TrackedData<Boolean> FLYING = DataTracker.registerData(CrowEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	private static final TrackedData<Integer> ATTACK_TICK = DataTracker.registerData(CrowEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	public float prevFlyProgress;
@@ -95,14 +96,30 @@ public class CrowEntity extends AnimalEntity {
 		this.goalSelector.add(0, new SwimGoal(this));
 		this.goalSelector.add(2, new CrowMeleeGoal(this));
 		this.goalSelector.add(4, new CrowScatterGoal(this));
-		this.goalSelector.add(5, new AvoidPumpkinsGoal(this));
-		this.goalSelector.add(6, new CircleAndAttackCropsGoal(this));
+		this.goalSelector.add(0, new AvoidPumpkinsGoal(this));
+		this.goalSelector.add(3, new CircleAndAttackCropsGoal(this));
 		this.goalSelector.add(7, new AIWalkIdle());
 		this.goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 6.0F));
 		this.goalSelector.add(9, new LookAtEntityGoal(this, PathAwareEntity.class, 6.0F));
 		this.goalSelector.add(10, new LookAroundGoal(this));
 		this.targetSelector.add(1, new CrowTargetItemsGoal(this, false, false, 40, 16));
 	}
+
+	@Override
+	public boolean canTargetItem(ItemStack stack) {
+		return isCrowEdible(stack);
+	}
+
+	@Override
+	public void onGetItem(ItemEntity e) {
+		final ItemStack duplicate = e.getStack().copy();
+		duplicate.setCount(1);
+		if (!this.getStackInHand(Hand.MAIN_HAND).isEmpty() && !this.world.isClient) {
+			this.dropStack(this.getStackInHand(Hand.MAIN_HAND), 0.0F);
+		}
+		this.setStackInHand(Hand.MAIN_HAND, duplicate);
+	}
+
 	public void peck() {
 		this.dataTracker.set(ATTACK_TICK, 7);
 	}
@@ -144,6 +161,13 @@ public class CrowEntity extends AnimalEntity {
 		}
 		this.dataTracker.set(FLYING, flying);
 	}
+	@Override
+	protected void initDataTracker() {
+		super.initDataTracker();
+		this.dataTracker.startTracking(FLYING, false);
+		this.dataTracker.startTracking(ATTACK_TICK, 0);
+	}
+
 	public void tick() {
 		super.tick();
 		this.prevAttackProgress = attackProgress;

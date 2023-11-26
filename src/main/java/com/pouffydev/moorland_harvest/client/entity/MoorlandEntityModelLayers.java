@@ -1,13 +1,13 @@
-package com.pouffydev.moorland_harvest.client;
+package com.pouffydev.moorland_harvest.client.entity;
 
 import com.pouffydev.moorland_harvest.Moorland;
-import com.pouffydev.moorland_harvest.content.entity.crow.CrowModel;
-import com.pouffydev.moorland_harvest.content.entity.turf_roamer.TurfRoamerModel;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+import com.pouffydev.moorland_harvest.client.entity.model.CrowModel;
+import com.pouffydev.moorland_harvest.client.entity.model.TurfRoamerModel;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
-@Environment(EnvType.CLIENT)
+import org.quiltmc.loader.api.minecraft.ClientOnly;
+
+@ClientOnly
 public class MoorlandEntityModelLayers {
 	public static final EntityModelLayer moorStalker = createModelLayer("moor_stalker");
 	public static final EntityModelLayer crow = createModelLayerInnerArmor("crow");

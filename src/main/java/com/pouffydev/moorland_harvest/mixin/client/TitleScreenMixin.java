@@ -1,4 +1,4 @@
-package com.pouffydev.moorland_harvest.mixin;
+package com.pouffydev.moorland_harvest.mixin.client;
 
 import com.pouffydev.moorland_harvest.Moorland;
 import net.minecraft.client.gui.screen.TitleScreen;

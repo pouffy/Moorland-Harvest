@@ -1,15 +1,15 @@
-package com.pouffydev.moorland_harvest.content.entity.turf_roamer;
+package com.pouffydev.moorland_harvest.client.entity.renderer;
 
-import com.pouffydev.moorland_harvest.client.MoorlandEntityModelLayers;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+import com.pouffydev.moorland_harvest.client.entity.MoorlandEntityModelLayers;
+import com.pouffydev.moorland_harvest.client.entity.model.TurfRoamerModel;
+import com.pouffydev.moorland_harvest.content.entity.turf_roamer.TurfRoamer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.util.Identifier;
+import org.quiltmc.loader.api.minecraft.ClientOnly;
 
 import static com.pouffydev.moorland_harvest.Moorland.ID;
-@Environment(EnvType.CLIENT)
+@ClientOnly
 public class TurfRoamerRenderer extends MobEntityRenderer<TurfRoamer, TurfRoamerModel<TurfRoamer>> {
 	private static final Identifier TEXTURE = new Identifier(ID, "textures/entity/moor_stalker.png");
 

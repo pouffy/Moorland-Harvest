@@ -2,7 +2,6 @@ package com.pouffydev.moorland_harvest.content.entity.ai;
 
 import com.pouffydev.moorland_harvest.content.entity.crow.CrowEntity;
 import com.pouffydev.moorland_harvest.registry.MoorlandBlockTags;
-import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.block.CropBlock;
 import net.minecraft.command.argument.EntityAnchorArgumentType;
 import net.minecraft.entity.ai.goal.MoveToTargetPosGoal;
@@ -65,7 +64,7 @@ public class CircleAndAttackCropsGoal extends MoveToTargetPosGoal {
 			BlockPos circlePos = getVultureCirclePos(blockpos);
 			if (circlePos != null) {
 				crow.setFlying(true);
-				crow.getMoveControl().moveTo(circlePos.getX() + 0.5D, circlePos.getY() + 0.5D, circlePos.getZ() + 0.5D, 0.7F);
+				crow.getNavigation().startMovingTo(circlePos.getX() + 0.5D, circlePos.getY() + 0.5D, circlePos.getZ() + 0.5D, 0.7F);
 			}
 			circlingTime++;
 			if(circlingTime > 200){
@@ -80,7 +79,7 @@ public class CircleAndAttackCropsGoal extends MoveToTargetPosGoal {
 			if (!isWithinXZDist(blockpos, this.mob.getPos(), this.acceptedDistance())) {
 				this.isAboveDestinationBear = false;
 				++this.tryingTime;
-				this.mob.getNavigation().startMovingTo((double) ((float) blockpos.getX()) + 0.5D, blockpos.getY() - 0.5D, (double) ((float) blockpos.getZ()) + 0.5D, 1);
+				this.mob.getNavigation().findPathTo((double) ((float) blockpos.getX()) + 0.5D, blockpos.getY() - 0.5D, (double) ((float) blockpos.getZ()) + 0.5D, 1);
 			} else {
 				this.isAboveDestinationBear = true;
 				--this.tryingTime;

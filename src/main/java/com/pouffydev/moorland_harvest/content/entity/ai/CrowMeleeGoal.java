@@ -50,7 +50,7 @@ public class CrowMeleeGoal extends Goal {
 		}
 		LivingEntity target = crow.getTarget();
 		if(circlingTime > maxCircleTime){
-			crow.getMoveControl().moveTo(target.getX(), target.getY() + target.getEyeY() / 2F, target.getZ(), 1.3F);
+			crow.getNavigation().startMovingTo(target.getX(), target.getY() + target.getEyeY() / 2F, target.getZ(), 1.3F);
 			if(crow.distanceTo(target) < 2){
 				crow.peck();
 				if(target.getGroup() == EntityGroup.UNDEAD){
@@ -67,7 +67,7 @@ public class CrowMeleeGoal extends Goal {
 				circlePos = target.getPos();
 			}
 			crow.setFlying(true);
-			crow.getMoveControl().moveTo(circlePos.x, circlePos.y + target.getEyeY() + 0.2F, circlePos.z, 1F);
+			crow.getNavigation().startMovingTo(circlePos.x, circlePos.y + target.getEyeY() + 0.2F, circlePos.z, 1F);
 
 		}
 	}

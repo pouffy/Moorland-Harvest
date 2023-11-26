@@ -2,7 +2,9 @@ package com.pouffydev.moorland_harvest.content.entity.ai;
 
 import com.pouffydev.moorland_harvest.content.entity.crow.CrowEntity;
 import com.pouffydev.moorland_harvest.registry.MoorlandBlockTags;
+import net.minecraft.entity.ai.goal.FleeEntityGoal;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -12,6 +14,7 @@ public class AvoidPumpkinsGoal extends Goal {
 	private final int searchLength;
 	private final int verticalSearchRange;
 	protected BlockPos destinationBlock;
+	protected final EntityNavigation fleeingEntityNavigation;
 	protected int runDelay = 70;
 	private Vec3d flightTarget;
 
@@ -19,6 +22,7 @@ public class AvoidPumpkinsGoal extends Goal {
 		this.crow = crow;
 		searchLength = 20;
 		verticalSearchRange = 1;
+		fleeingEntityNavigation = crow.getNavigation();
 	}
 
 	public boolean shouldContinue() {
@@ -28,7 +32,6 @@ public class AvoidPumpkinsGoal extends Goal {
 	public boolean isCloseToPumpkin(double dist) {
 		return destinationBlock == null || crow.squaredDistanceTo(Vec3d.ofCenter(destinationBlock)) < dist * dist;
 	}
-
 	@Override
 	public boolean canStart() {
 		if (this.runDelay > 0) {
@@ -46,7 +49,7 @@ public class AvoidPumpkinsGoal extends Goal {
 		if (vec != null) {
 			flightTarget = vec;
 			crow.setFlying(true);
-			crow.getMoveControl().moveTo(vec.x, vec.y, vec.z, 1F);
+			fleeingEntityNavigation.startMovingTo(vec.x, vec.y, vec.z, 1F);
 		}
 	}
 
@@ -61,7 +64,7 @@ public class AvoidPumpkinsGoal extends Goal {
 				}
 			}
 			if (flightTarget != null) {
-				crow.getMoveControl().moveTo(flightTarget.x, flightTarget.y, flightTarget.z, 1F);
+				fleeingEntityNavigation.startMovingTo(flightTarget.x, flightTarget.y, flightTarget.z, 1F);
 			}
 		}
 	}
@@ -71,18 +74,18 @@ public class AvoidPumpkinsGoal extends Goal {
 	}
 
 	protected boolean searchForDestination() {
-		int lvt_1_1_ = this.searchLength;
-		int lvt_2_1_ = this.verticalSearchRange;
-		BlockPos lvt_3_1_ = crow.getBlockPos();
-		BlockPos.Mutable lvt_4_1_ = new BlockPos.Mutable();
+		int length = this.searchLength;
+		int searchRange = this.verticalSearchRange;
+		BlockPos crowBlockPos = crow.getBlockPos();
+		BlockPos.Mutable blockPos = new BlockPos.Mutable();
 
-		for (int lvt_5_1_ = -8; lvt_5_1_ <= 2; lvt_5_1_++) {
-			for (int lvt_6_1_ = 0; lvt_6_1_ < lvt_1_1_; ++lvt_6_1_) {
-				for (int lvt_7_1_ = 0; lvt_7_1_ <= lvt_6_1_; lvt_7_1_ = lvt_7_1_ > 0 ? -lvt_7_1_ : 1 - lvt_7_1_) {
-					for (int lvt_8_1_ = lvt_7_1_ < lvt_6_1_ && lvt_7_1_ > -lvt_6_1_ ? lvt_6_1_ : 0; lvt_8_1_ <= lvt_6_1_; lvt_8_1_ = lvt_8_1_ > 0 ? -lvt_8_1_ : 1 - lvt_8_1_) {
-						lvt_4_1_.set(lvt_3_1_, lvt_7_1_, lvt_5_1_ - 1, lvt_8_1_);
-						if (this.isPumpkin(crow.world, lvt_4_1_)) {
-							this.destinationBlock = lvt_4_1_;
+		for (int a = -8; a <= 2; a++) {
+			for (int b = 0; b < length; ++b) {
+				for (int c = 0; c <= b; c = c > 0 ? -c : 1 - c) {
+					for (int d = c < b && c > -b ? b : 0; d <= b; d = d > 0 ? -d : 1 - d) {
+						blockPos.set(crowBlockPos, c, a - 1, d);
+						if (this.isPumpkin(crow.world, blockPos)) {
+							this.destinationBlock = blockPos;
 							return true;
 						}
 					}

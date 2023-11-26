@@ -134,7 +134,7 @@ public class TargetItemsGoal<T extends ItemEntity> extends TargetGoal {
 			moveTo();
 		}
 		if(targetEntity != null && this.mob.canSee(targetEntity) && this.mob.getWidth() > 2D && this.mob.isOnGround()){
-			this.mob.getMoveControl().moveTo(targetEntity.getX(), targetEntity.getY(), targetEntity.getZ(), 1);
+			this.mob.getNavigation().findPathTo(targetEntity.getX(), targetEntity.getY(), targetEntity.getZ(), 1);
 		}
 		if (this.targetEntity != null && this.targetEntity.isAlive() && this.mob.squaredDistanceTo(this.targetEntity) < this.hunter.getMaxDistToItem() && mob.getStackInHand(Hand.MAIN_HAND).isEmpty()) {
 			hunter.onGetItem(targetEntity);

@@ -20,7 +20,7 @@
 		"intermediate_mappings": "net.fabricmc:intermediary",
 		"entrypoints": {
 			"init": "com.pouffydev.moorland_harvest.Moorland",
-			"client_init": "com.pouffydev.moorland_harvest.MoorlandClient"
+			"client_init": "com.pouffydev.moorland_harvest.client.MoorlandClient"
 		},
 		"depends": [
 			{

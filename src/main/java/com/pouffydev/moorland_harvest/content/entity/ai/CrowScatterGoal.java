@@ -5,6 +5,7 @@ import com.pouffydev.moorland_harvest.content.entity.crow.CrowEntity;
 import com.pouffydev.moorland_harvest.registry.MoorlandEntityTags;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -21,6 +22,8 @@ public class CrowScatterGoal extends Goal {
 	protected int executionChance = 8;
 	protected boolean mustUpdate;
 	private Entity targetEntity;
+	protected final EntityNavigation fleeingEntityNavigation;
+
 	private Vec3d flightTarget = null;
 	private int cooldown = 0;
 
@@ -34,6 +37,8 @@ public class CrowScatterGoal extends Goal {
 				return e.isAlive() && e.getType().isIn(MoorlandEntityTags.SCATTERS_CROWS) || e instanceof PlayerEntity && !((PlayerEntity) e).isCreative();
 			}
 		};
+
+		this.fleeingEntityNavigation = crow.getNavigation();
 	}
 
 	@Override
@@ -74,7 +79,7 @@ public class CrowScatterGoal extends Goal {
 		}
 		if (flightTarget != null) {
 			crow.setFlying(true);
-			crow.getMoveControl().moveTo(flightTarget.x, flightTarget.y, flightTarget.z, 1F);
+			fleeingEntityNavigation.startMovingTo(flightTarget.x, flightTarget.y, flightTarget.z, 1F);
 			if(cooldown == 0 && crow.isTargetBlocked(flightTarget)){
 				cooldown = 30;
 				flightTarget = null;

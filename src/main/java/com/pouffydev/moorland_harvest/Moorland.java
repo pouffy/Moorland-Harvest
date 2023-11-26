@@ -21,7 +21,7 @@ public class Moorland implements ModInitializer {
 		MoorlandBlocks.onInitializeBlockItems();
 		MoorlandEntities.onInitializeEntities();
 		MoorlandItems.onInitializeItems();
-		LOGGER.info("Hello Quilt world from {}!", mod.metadata().name());
+		LOGGER.info("Testing, testing, 1, 2, 3... Thank you for tuning in to Moorland Harvest!");
 	}
 	public static Identifier asResource(String path) {
 		return new Identifier(ID, path);

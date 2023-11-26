@@ -31,21 +31,21 @@ public class CrowTargetItemsGoal extends TargetItemsGoal {
 		if (this.targetEntity != null) {
 			crow.aiItemFlag = true;
 			if (this.mob.distanceTo(targetEntity) < 2) {
-				crow.getMoveControl().moveTo(this.targetEntity.getX(), targetEntity.getY(), this.targetEntity.getZ(), 1);
+				crow.getNavigation().findPathTo(this.targetEntity.getX(), targetEntity.getY(), this.targetEntity.getZ(), 1);
 				crow.peck();
 			}
 			if (this.mob.distanceTo(this.targetEntity) > 8 || crow.isFlying()) {
 				crow.setFlying(true);
 
 				if(!crow.canSee(targetEntity)){
-					crow.getMoveControl().moveTo(this.targetEntity.getX(), 1 + crow.getY(), this.targetEntity.getZ(), 1);
+					crow.getNavigation().findPathTo(this.targetEntity.getX(), 1 + crow.getY(), this.targetEntity.getZ(), 1);
 				}else{
 					final float f = (float) (crow.getX() - targetEntity.getX());
 					final float f2 = (float) (crow.getZ() - targetEntity.getZ());
 					final float xzDist = MathHelper.sqrt(f * f + f2 * f2);
 					final float f1 = xzDist < 5F ? 0 : 1.8F;
 
-					crow.getMoveControl().moveTo(this.targetEntity.getX(), f1 + this.targetEntity.getY(), this.targetEntity.getZ(), 1);
+					crow.getNavigation().findPathTo(this.targetEntity.getX(), f1 + this.targetEntity.getY(), this.targetEntity.getZ(), 1);
 				}
 			} else {
 				this.mob.getNavigation().startMovingTo(this.targetEntity.getX(), this.targetEntity.getY(), this.targetEntity.getZ(), 1);
